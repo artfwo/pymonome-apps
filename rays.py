@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 #
 # rays - python implementation of flin by tehn
-# see http://monome.org/docs/app:parc for more information
+# see http://monome.org/docs/app:flin for more information
 # about the original app
 #
 
