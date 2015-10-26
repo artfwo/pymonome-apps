@@ -24,7 +24,7 @@ class RtMidiClock:
         self._tick_queue = queue.Queue()
 
         self._rtmin = rtmidi2.MidiIn("RtMidiClock")
-        self._rtmin.ignore_types(False, False, False)
+        self._rtmin.ignore_types(True, False, True)
         self._rtmin.callback = self._on_midi_message
 
         self.stopped = False
@@ -57,18 +57,23 @@ class RtMidiClock:
     @asyncio.coroutine
     def _read_ticks(self):
         while True:
-            b = yield from self._loop.run_in_executor(None, self._tick_queue.get, True, 0.250)
-            if b is not None and not self.stopped:
-                self.ticks += 1
+            try:
+                b = yield from self._loop.run_in_executor(None, self._tick_queue.get, True, 0.250)
+                if not self.stopped:
+                    self.ticks += 1
 
-                # update bpm
-                current_tick = time.time()
-                self._tick_intervals.append(current_tick - self._last_tick)
-                self.bpm = 1 / (sum(self._tick_intervals) / len(self._tick_intervals)) / 24 * 60
-                self._last_tick = current_tick
+                    # update bpm
+                    current_tick = time.time()
+                    self._tick_intervals.append(current_tick - self._last_tick)
+                    self.bpm = 1 / (sum(self._tick_intervals) / len(self._tick_intervals)) / 24 * 60
+                    self._last_tick = current_tick
 
-                self._tick_event.set()
-                self._tick_event.clear()
+                    self._tick_event.set()
+                    self._tick_event.clear()
+            except queue.Empty:
+                pass
+            except asyncio.CancelledError:
+                return
 
     @asyncio.coroutine
     def sync(self, q=1):
