@@ -50,5 +50,9 @@ class Renoise(Synth):
         midi = pack_midi(0b1011, channel, controller, value)
         self.send('/renoise/trigger/midi', midi)
 
+    def program_change(self, channel, program):
+        midi = pack_midi(0b1100, channel, program, 0)
+        self.send('/renoise/trigger/midi', midi)
+
     def panic(self):
         self.send('/renoise/transport/panic')
