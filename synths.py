@@ -4,6 +4,8 @@ import random
 import struct
 
 def pack_midi(message, channel, data1, data2):
+    # typical music software counts midi channels from 1 to 16, and so do we
+    channel = channel - 1
     return ((data2 & 127) << 16) | ((data1 & 127) << 8) | ((message & 15) << 4) | (channel & 15)
 
 class Synth(aiosc.OSCProtocol):
