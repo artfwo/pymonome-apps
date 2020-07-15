@@ -81,11 +81,18 @@ class GridBridge(monome.GridApp):
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    bridge_app = GridBridge()
+
+    device_map = {
+        'm0001754': GridBridge(bridge_port=8080, app_port=8000, app_prefix='/monome')
+    }
 
     def serialosc_device_added(id, type, port):
-        print('connecting to {} ({})'.format(id, type))
-        asyncio.ensure_future(bridge_app.grid.connect('127.0.0.1', port))
+        if id in device_map:
+            bridge_app = device_map[id]
+            print('setting up {} for {}'.format(bridge_app.__class__.__name__, id))
+            asyncio.ensure_future(bridge_app.grid.connect('127.0.0.1', port))
+        else:
+            print('no bridge configured for {}'.format(id))
 
     serialosc = monome.SerialOsc()
     serialosc.device_added_event.add_handler(serialosc_device_added)
