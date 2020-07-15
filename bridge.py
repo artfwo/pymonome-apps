@@ -83,7 +83,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
     device_map = {
-        'm0001754': GridBridge(bridge_port=8080, app_port=8000, app_prefix='/monome')
+        'm0001754': GridBridge(bridge_port=8080, app_host='127.0.0.1', app_port=8000, app_prefix='/monome'),
     }
 
     def serialosc_device_added(id, type, port):
