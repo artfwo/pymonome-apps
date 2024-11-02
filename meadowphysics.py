@@ -659,7 +659,7 @@ class Plotter(Widget):
         data = self.__log[y]
         segments = []
 
-        style_nodata = Style.parse("blue")
+        style_nodata = Style.parse("dodger_blue3")
         style_green = Style.parse("bright_green")
         style_white = Style.parse("bright_white")
 
