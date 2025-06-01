@@ -492,7 +492,7 @@ class SpinButton(Widget):
         }
 
         SpinButton:hover {
-            tint: $accent 30%;
+            tint: $secondary 30%;
         }
     """
 
@@ -590,12 +590,13 @@ class OptionsPanel(Widget):
         OptionsPanel > Switch:focus {
             height: 1;
             border: none;
-            tint: $accent 30%;
+            tint: $primary 30%;
         }
 
         OptionsPanel > Switch:hover {
             height: 1;
             border: none;
+            tint: $secondary 30%;
         }
 
         OptionsPanel > Button {
@@ -782,7 +783,7 @@ class MeadowphysicsApp(App):
         Select:focus > SelectCurrent > Static,
         Select.-expanded > SelectCurrent,
         Select.-expanded > SelectCurrent > Static {
-            tint: $accent 30%;
+            tint: $primary 30%;
         }
 
         SelectOverlay {
